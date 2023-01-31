@@ -2,6 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:notepad/pages/note_editor.dart';
+import 'package:notepad/pages/note_reader.dart';
 import 'package:notepad/services/app_style.dart';
 import 'package:notepad/services/note_card.dart';
 
@@ -53,8 +55,15 @@ class _HomePageState extends State<HomePage> {
                     return GridView(
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 2),
-                      children: snapshot.data!.docs.map((note) => noteCard((){}, note)).toList()
-                    );
+                        children: snapshot.data!.docs
+                            .map((note) => noteCard(() {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              NoteReader(note)));
+                                }, note))
+                            .toList());
                   }
                   return Text(
                     "there's  no notes",
@@ -65,6 +74,13 @@ class _HomePageState extends State<HomePage> {
             )
           ],
         ),
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () {
+          Navigator.push(context, MaterialPageRoute(builder: (context)=> NoteEditor()));
+        },
+        label: Text("add note"),
+        icon: Icon(Icons.add),
       ),
     );
   }
