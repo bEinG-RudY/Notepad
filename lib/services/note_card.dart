@@ -9,7 +9,7 @@ Widget noteCard(Function()? onTap, QueryDocumentSnapshot doc){
       margin: EdgeInsets.all(8),
       decoration: BoxDecoration(
         color: AppStyle.cardsColor[doc['color_id']],
-        borderRadius: BorderRadius.circular(6),
+        borderRadius: BorderRadius.circular(8),
       ),
       child: Column(
         children: [
