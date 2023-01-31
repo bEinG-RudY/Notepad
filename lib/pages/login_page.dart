@@ -4,7 +4,7 @@ import 'package:notepad/pages/forgot_password_page.dart';
 
 class LoginPage extends StatefulWidget {
   final VoidCallback showRegisterPage;
-  const LoginPage({Key? key, required  this.showRegisterPage});
+  const LoginPage({Key? key, required this.showRegisterPage});
 
   @override
   State<LoginPage> createState() => _LoginPageState();
@@ -150,8 +150,11 @@ class _LoginPageState extends State<LoginPage> {
                     height: 40,
                   ),
                   GestureDetector(
-                    onTap: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (context)=> ForgotPasswordPage()));
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ForgotPasswordPage()));
                     },
                     child: Text(
                       'Forgot Password',
@@ -184,11 +187,12 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   Center(
                     child: GestureDetector(
-                      onTap: widget.showRegisterPage,
+                        onTap: widget.showRegisterPage,
                         child: Text(
-                      'Create Account',
-                      style: TextStyle(color: Color.fromRGBO(49, 39, 79, 4)),
-                    )),
+                          'Create Account',
+                          style:
+                              TextStyle(color: Color.fromRGBO(49, 39, 79, 4)),
+                        )),
                   ),
                 ],
               ),
