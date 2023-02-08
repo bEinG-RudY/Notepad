@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:notepad/pages/forgot_password_page.dart';
 import 'package:notepad/pages/note_editor.dart';
 import 'package:notepad/pages/note_reader.dart';
 import 'package:notepad/services/app_style.dart';
@@ -18,14 +19,19 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppStyle.mainColor,
+      backgroundColor: Colors.white12,
       appBar: AppBar(
         elevation: 0.0,
-        title: Text('Notes'),
+        title: Text(
+          'Notes',
+          style:
+              TextStyle(color: AppStyle.mainColor, fontWeight: FontWeight.bold),
+        ),
         centerTitle: true,
-        backgroundColor: AppStyle.mainColor,
+        backgroundColor: Colors.lightBlue[50],
       ),
-      body: Padding(
+      body:
+      Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -34,7 +40,7 @@ class _HomePageState extends State<HomePage> {
             Text(
               'Your recent notes',
               style: GoogleFonts.roboto(
-                  color: Colors.white,
+                  color: AppStyle.mainColor,
                   fontWeight: FontWeight.bold,
                   fontSize: 22),
             ),
@@ -75,13 +81,101 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {
-          Navigator.push(context, MaterialPageRoute(builder: (context)=> NoteEditor()));
+      bottomNavigationBar: bottomNavbar(context),
+    );
+  }
+}
+
+Container bottomNavbar(BuildContext context) {
+  return Container(
+    padding: EdgeInsets.all(8),
+    height: 60,
+    decoration: BoxDecoration(
+      boxShadow:
+      [BoxShadow(spreadRadius:8,blurRadius:7,color: AppStyle.mainColor.withOpacity(1))],
+      color: Colors.lightBlue[50],
+      borderRadius: const BorderRadius.only(
+        topLeft: Radius.circular(20),
+        topRight: Radius.circular(20),
+      ),
+    ),
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        IconButton(
+          enableFeedback: false,
+          onPressed: () {
+            Navigator.push(context, MaterialPageRoute(builder: (context)=> LogOut()));
+          },
+          icon: LogOut()==true
+              ? const Icon(
+                  Icons.space_dashboard_rounded,
+                  color: Colors.white,
+                  size: 35,
+                )
+              : const Icon(
+                  Icons.space_dashboard_outlined,
+                  color: Colors.black,
+                  size: 35,
+                ),
+        ),
+        GestureDetector(
+          onTap: (){
+            Navigator.push(
+                context, MaterialPageRoute(builder: (context) => NoteEditor()));
+          },
+          child: Container(
+            padding: EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color: AppStyle.mainColor,
+              shape: BoxShape.circle
+            ),
+            child: Icon(Icons.add,color: Colors.white,
+            ),
+          ),
+        ),
+        IconButton(
+          enableFeedback: false,
+          onPressed: () {},
+          icon: ForgotPasswordPage() == true
+              ? const Icon(
+            Icons.person_outline_rounded,
+            color: Colors.white,
+            size: 35,
+          )
+              : const Icon(
+            Icons.person_outline_outlined,
+            color: Colors.black,
+            size: 35,
+          ),
+        ),
+      ],
+    ),
+  );
+}
+
+class LogOut extends StatefulWidget {
+  const LogOut({Key? key}) : super(key: key);
+
+  @override
+  State<LogOut> createState() => _LogOutState();
+}
+
+class _LogOutState extends State<LogOut> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: IconButton(
+          onPressed: () {
+          FirebaseAuth.instance.signOut();
         },
-        label: Text("add note"),
-        icon: Icon(Icons.add),
+          icon: Icon(Icons.logout_rounded),
+
+
+        ),
       ),
     );
   }
 }
+
